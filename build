@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+export GOPATH=$PWD/go
+
+TERRAFORM_REPO="${TERRAFORM_REPO:=https://github.com/hashicorp/terraform.git}"
+TERRAFORM_BRANCH="${TERRAFORM_BRANCH:=master}"
+TERRAFORM_DIR=$GOPATH/src/github.com/hashicorp/terraform
+
+mkdir -p $TERRAFORM_DIR
+
+echo "Cloning terraform"
+git clone -b $TERRAFORM_BRANCH $TERRAFORM_REPO $TERRAFORM_DIR
+
+cd $TERRAFORM_DIR
+git checkout dbd67f6cb2713308e034bf7cfc8ef53d62dc2446
+
+echo "Running 'make updatedeps'"
+make updatedeps
+
+echo "Running 'make dev'"
+make dev
